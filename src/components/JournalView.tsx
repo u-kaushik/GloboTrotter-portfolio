@@ -82,17 +82,35 @@ const StoryCard: React.FC<{
       initial={{ scale: 0.85, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ delay: index * 0.04, type: 'spring', stiffness: 300, damping: 24 }}
-      className="relative aspect-square rounded-2xl overflow-hidden cursor-pointer group"
+      className="relative aspect-[3/4] rounded-2xl overflow-hidden cursor-pointer group bg-gray-100"
       onClick={onTap}
       onContextMenu={e => { e.preventDefault(); setShowDelete(true); }}
     >
       {story.type === 'text' ? (
         /* Text card */
-        <div className={`w-full h-full bg-gradient-to-br ${BG_GRADIENTS[story.backgroundColor || 'sunset']} flex items-center justify-center p-2.5`}>
-          <p className="w-full text-white font-bold text-center text-[10px] leading-snug line-clamp-4 drop-shadow-sm">
-            {story.caption}
-          </p>
-        </div>
+        story.mediaUrl ? (
+          <div className="relative w-full h-full">
+            <img
+              src={story.mediaUrl}
+              alt="Memory"
+              className="w-full h-full object-cover"
+              referrerPolicy="no-referrer"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-black/10" />
+            <div className="absolute inset-x-0 bottom-0 p-2.5">
+              <p className="w-full text-white font-bold text-[10px] leading-snug line-clamp-5 drop-shadow">
+                {story.caption}
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className={`w-full h-full bg-gradient-to-br ${BG_GRADIENTS[story.backgroundColor || 'sunset']} flex items-center justify-center p-2.5`}>
+            <p className="w-full text-white font-bold text-center text-[10px] leading-snug line-clamp-4 drop-shadow-sm">
+              {story.caption}
+            </p>
+          </div>
+        )
       ) : (
         /* Photo/video card */
         <>
@@ -172,11 +190,26 @@ const StoryViewer: React.FC<{
           onClick={e => e.stopPropagation()}
         >
           {story.type === 'text' ? (
-            <div className={`w-full h-full bg-gradient-to-br ${BG_GRADIENTS[story.backgroundColor || 'sunset']} flex items-center justify-center p-10`}>
-              <p className="text-white font-bold text-2xl text-center leading-relaxed max-w-sm drop-shadow-lg">
-                {story.caption}
-              </p>
-            </div>
+            story.mediaUrl ? (
+              <div className="relative w-full h-full flex items-center justify-center bg-black">
+                <img
+                  src={story.mediaUrl}
+                  alt="Memory"
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/20" />
+                <p className="absolute inset-x-8 bottom-12 text-white font-bold text-2xl text-center leading-relaxed drop-shadow-lg">
+                  {story.caption}
+                </p>
+              </div>
+            ) : (
+              <div className={`w-full h-full bg-gradient-to-br ${BG_GRADIENTS[story.backgroundColor || 'sunset']} flex items-center justify-center p-10`}>
+                <p className="text-white font-bold text-2xl text-center leading-relaxed max-w-sm drop-shadow-lg">
+                  {story.caption}
+                </p>
+              </div>
+            )
           ) : (
             <div className="relative w-full h-full flex items-center justify-center">
               <img
@@ -1130,7 +1163,7 @@ const JournalView: React.FC<JournalViewProps> = ({ log, profile, onBack, onUpdat
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: allStories.length * 0.04 + 0.05 }}
               onClick={() => setShowAddStory(true)}
-              className="aspect-square rounded-2xl border-2 border-dashed border-gray-200 hover:border-green-300 hover:bg-green-50 transition-colors flex flex-col items-center justify-center gap-1.5 text-gray-300 hover:text-green-400"
+              className="aspect-[3/4] rounded-2xl border-2 border-dashed border-gray-200 hover:border-green-300 hover:bg-green-50 transition-colors flex flex-col items-center justify-center gap-1.5 text-gray-300 hover:text-green-400"
             >
               <Plus className="w-5 h-5" />
               <span className="text-[9px] font-black uppercase tracking-widest">Add</span>

@@ -169,9 +169,12 @@ a {
 
 [data-demo-tour-focus="nostalgiaScene"],
 [data-demo-tour-focus="nostalgiaFacts"] {
+  width: calc(100% - 1rem);
+  margin-inline: auto;
   background: rgba(255, 255, 255, 0.96);
   border-radius: 1rem;
-  padding: 1rem;
+  outline: 10px solid rgba(255, 255, 255, 0.96);
+  outline-offset: -1px;
 }
 
 [data-demo-tour-focus="portugalMemory"] {

@@ -43,8 +43,12 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
   const [spot, setSpot] = useState<{ top: number; left: number; width: number; height: number; radius: number } | null>(null);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const [tooltipPos, setTooltipPos] = useState<TooltipPosition | null>(null);
+  const [viewport, setViewport] = useState(() => ({
+    width: typeof window !== 'undefined' ? window.innerWidth : 1024,
+    height: typeof window !== 'undefined' ? window.innerHeight : 768,
+  }));
   const pad = 12;
-  const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false;
+  const isMobile = viewport.width < 768;
   const isCentered = Boolean(step && (!step.targetDataTour || step.centered));
   const allowCenteredHighlight = step?.id === 'addTrip';
   const requiresNativeTargetClick = step?.id === 'globePortugal';
@@ -69,6 +73,25 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
   useEffect(() => {
     setSpot(null);
   }, [step?.id]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const updateViewport = () => {
+      setViewport({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    updateViewport();
+    window.addEventListener('resize', updateViewport);
+    window.addEventListener('orientationchange', updateViewport);
+    return () => {
+      window.removeEventListener('resize', updateViewport);
+      window.removeEventListener('orientationchange', updateViewport);
+    };
+  }, []);
 
   useEffect(() => {
     if (!isOpen || !step?.targetDataTour || (isCentered && !allowCenteredHighlight)) { setSpot(null); return; }
@@ -185,13 +208,8 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
     // Portfolio demo polish: the focused walkthrough element should feel like
     // part of the guide layer, so lift every modal/card wrapper that could
     // otherwise trap it behind the dimmed page overlay.
-    let surfaceEl = targetEl.parentElement;
+    let surfaceEl: HTMLElement | null = targetEl.parentElement;
     while (surfaceEl) {
-      if (!(surfaceEl instanceof HTMLElement)) {
-        surfaceEl = surfaceEl.parentElement;
-        continue;
-      }
-
       const style = window.getComputedStyle(surfaceEl);
       const shouldLift =
         surfaceEl.hasAttribute('data-tour-surface') ||
@@ -226,14 +244,14 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
     const tooltipEl = tooltipRef.current;
     if (!tooltipEl) return;
 
-    const vpW = window.innerWidth;
-    const vpH = window.innerHeight;
-    const margin = 16;
-    const gap = 12;
+    const vpW = viewport.width;
+    const vpH = viewport.height;
+    const margin = isMobile ? 12 : 16;
+    const gap = isMobile ? 10 : 12;
 
     const ttRect = tooltipEl.getBoundingClientRect();
     const ttW = ttRect.width || 360;
-    const ttH = ttRect.height || 220;
+    const ttH = Math.min(ttRect.height || 220, vpH - margin * 2);
 
     if (isCentered) {
       setTooltipPos({
@@ -274,13 +292,13 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
 
     if (isMobile) {
       const targetBottom = spot.top + spot.height + pad;
-      const placeAbove = targetBottom > vpH - 220;
+      const placeAbove = targetBottom > vpH - Math.min(220, ttH + margin);
       const mobileTop = placeAbove
         ? Math.max(margin, spot.top - ttH - gap)
         : Math.min(vpH - ttH - margin, targetBottom + gap);
       setTooltipPos({
         top: mobileTop,
-        left: margin,
+        left: clamp(margin, 8, Math.max(8, vpW - ttW - margin)),
       });
       return;
     }
@@ -338,7 +356,7 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
       .sort((a, b) => a.overlap - b.overlap);
 
     setTooltipPos({ top: ranked[0]!.top, left: ranked[0]!.left });
-  }, [isOpen, step, spot, isMobile]);
+  }, [isOpen, step, spot, isMobile, viewport]);
 
   if (!isOpen || !step) return null;
 
@@ -397,7 +415,7 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
           initial={isCentered ? { opacity: 0, scale: 0.96 } : { opacity: 0, y: 16 }}
           animate={isCentered ? { opacity: 1, scale: 1 } : { opacity: 1, y: 0 }}
           exit={isCentered ? { opacity: 0, scale: 0.96 } : { opacity: 0, y: 16 }}
-          className={`fixed z-[620] bg-white rounded-3xl shadow-2xl p-4 sm:p-6 w-[min(18rem,calc(100vw-1rem))] sm:w-[min(24rem,calc(100vw-2rem))] overflow-hidden ${step.targetDataTour ? 'cursor-pointer' : ''} ${isCentered ? 'text-center left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2' : ''}`}
+          className={`fixed z-[620] bg-white rounded-3xl shadow-2xl p-4 sm:p-6 w-[min(18rem,calc(100vw-1.5rem))] sm:w-[min(24rem,calc(100vw-2rem))] max-h-[calc(100dvh-1.5rem)] sm:max-h-[calc(100dvh-2rem)] overflow-y-auto overscroll-contain ${step.targetDataTour ? 'cursor-pointer' : ''} ${isCentered ? 'text-center left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2' : ''}`}
           style={!isCentered && tooltipPos ? tooltipPos : undefined}
           ref={tooltipRef}
           role={step.targetDataTour ? 'button' : undefined}

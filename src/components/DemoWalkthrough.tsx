@@ -228,7 +228,7 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
         }
         surfaceEl.style.zIndex = '605';
         surfaceEl.style.isolation = 'isolate';
-        if (!['memoryStoryOpen', 'portugalMemory'].includes(step.id) && !localVeilApplied && (isTourSurface || style.position === 'fixed')) {
+        if (!['memoryStoryOpen', 'portugalMemory', 'plannerCards'].includes(step.id) && !localVeilApplied && (isTourSurface || style.position === 'fixed')) {
           surfaceEl.dataset.demoTourSurfaceFocus = 'true';
           localVeilApplied = true;
         }

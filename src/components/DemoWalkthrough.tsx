@@ -26,6 +26,7 @@ interface DemoWalkthroughProps {
 
 const clamp = (v: number, min: number, max: number) => Math.min(Math.max(v, min), max);
 type TooltipPosition = { top?: number; left?: number; right?: number; bottom?: number };
+const NO_LOCAL_VEIL_STEPS = ['memoryStoryOpen', 'portugalMemory', 'plannerCards', 'plannerDay1', 'plannerDay2', 'plannerDay3'];
 
 const createsStackingContext = (style: CSSStyleDeclaration) => (
   style.transform !== 'none' ||
@@ -228,7 +229,7 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
         }
         surfaceEl.style.zIndex = '605';
         surfaceEl.style.isolation = 'isolate';
-        if (!['memoryStoryOpen', 'portugalMemory', 'plannerCards'].includes(step.id) && !localVeilApplied && (isTourSurface || style.position === 'fixed')) {
+        if (!NO_LOCAL_VEIL_STEPS.includes(step.id) && !localVeilApplied && (isTourSurface || style.position === 'fixed')) {
           surfaceEl.dataset.demoTourSurfaceFocus = 'true';
           localVeilApplied = true;
         }
@@ -431,7 +432,7 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
           initial={isCentered ? { opacity: 0, scale: 0.96 } : { opacity: 0, y: 16 }}
           animate={isCentered ? { opacity: 1, scale: 1 } : { opacity: 1, y: 0 }}
           exit={isCentered ? { opacity: 0, scale: 0.96 } : { opacity: 0, y: 16 }}
-          className={`fixed z-[620] bg-white rounded-3xl shadow-2xl p-4 sm:p-6 w-[min(18rem,calc(100vw-1.5rem))] sm:w-[min(24rem,calc(100vw-2rem))] max-h-[calc(100dvh-1.5rem)] sm:max-h-[calc(100dvh-2rem)] overflow-y-auto overscroll-contain ${step.targetDataTour ? 'cursor-pointer' : ''} ${isCentered ? 'text-center left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2' : ''}`}
+          className={`fixed z-[620] ${step.tone === 'action' ? 'bg-emerald-50 border-2 border-white/80 ring-1 ring-teal-200/80' : 'bg-white'} rounded-3xl shadow-2xl p-4 sm:p-6 w-[min(18rem,calc(100vw-1.5rem))] sm:w-[min(24rem,calc(100vw-2rem))] max-h-[calc(100dvh-1.5rem)] sm:max-h-[calc(100dvh-2rem)] overflow-y-auto overscroll-contain ${step.targetDataTour ? 'cursor-pointer' : ''} ${isCentered ? 'text-center left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2' : ''}`}
           style={!isCentered && tooltipPos ? tooltipPos : undefined}
           ref={tooltipRef}
           role={step.targetDataTour ? 'button' : undefined}

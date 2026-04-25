@@ -1,0 +1,23 @@
+{
+  "name": "GloboTrotter Portfolio Demo",
+  "short_name": "GloboTrotter Demo",
+  "description": "A static portfolio demo of the GloboTrotter travel app UI.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#22c55e",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo-120.png",
+      "sizes": "120x120",
+      "type": "image/png"
+    }
+  ]
+}

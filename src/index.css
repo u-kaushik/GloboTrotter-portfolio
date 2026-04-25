@@ -1,0 +1,157 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Uniform scrollbar styling across app (Firefox & WebKit) */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #6b7280 transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #6b7280;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #7b8794;
+}
+
+@layer base {
+  body {
+    @apply font-sans;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Style the date input to match the app's font */
+  input[type="date"],
+  input[type="number"],
+  input[type="text"],
+  select,
+  textarea {
+    @apply font-sans;
+  }
+
+  /* Prevent iOS from zooming the webview when focusing smaller form fields */
+  @media (pointer: coarse) {
+    input,
+    select,
+    textarea {
+      font-size: 16px;
+    }
+  }
+
+  /* Custom styling for date picker if possible (limited) */
+  ::-webkit-calendar-picker-indicator {
+    @apply cursor-pointer opacity-50 hover:opacity-100 transition-opacity;
+    filter: invert(0.5);
+  }
+}
+
+/* Tiny universal hover animation for buttons to add a subtle depth on interaction */
+button {
+  transition: transform 120ms ease-in-out;
+  touch-action: manipulation;
+}
+button:hover {
+  transform: translateY(-1px) scale(1.01);
+}
+a {
+  touch-action: manipulation;
+}
+@media (prefers-reduced-motion: reduce) {
+  button { transition: none; transform: none; }
+}
+
+/* ── Time Capsule reveal sparkle ─────────────────────────────────────────── */
+.sparkle-dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f59e0b;
+  margin-left: -4px;
+  margin-top: -4px;
+  pointer-events: none;
+  z-index: 20;
+  animation-duration: 0.85s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+@keyframes sp1 {
+  0%   { opacity: 1; transform: translate(0, 0) scale(1.2); }
+  60%  { opacity: 0.8; }
+  100% { opacity: 0; transform: translate(-72px, -68px) scale(0.1); }
+}
+@keyframes sp2 {
+  0%   { opacity: 1; transform: translate(0, 0) scale(1); }
+  60%  { opacity: 0.8; }
+  100% { opacity: 0; transform: translate(72px, -68px) scale(0.1); }
+}
+@keyframes sp3 {
+  0%   { opacity: 1; transform: translate(0, 0) scale(0.9); }
+  60%  { opacity: 0.7; }
+  100% { opacity: 0; transform: translate(-100px, 28px) scale(0.1); }
+}
+@keyframes sp4 {
+  0%   { opacity: 1; transform: translate(0, 0) scale(0.9); }
+  60%  { opacity: 0.7; }
+  100% { opacity: 0; transform: translate(100px, 28px) scale(0.1); }
+}
+@keyframes sp5 {
+  0%   { opacity: 1; transform: translate(0, 0) scale(1.3); }
+  60%  { opacity: 0.9; }
+  100% { opacity: 0; transform: translate(0, -100px) scale(0.1); }
+}
+.sparkle-dot-1 { animation-name: sp1; }
+.sparkle-dot-2 { animation-name: sp2; }
+.sparkle-dot-3 { animation-name: sp3; animation-delay: 0.06s; }
+.sparkle-dot-4 { animation-name: sp4; animation-delay: 0.06s; }
+.sparkle-dot-5 { animation-name: sp5; animation-delay: 0.03s; }
+
+@keyframes shimmer-sweep {
+  0%   { transform: translateX(-250%); }
+  100% { transform: translateX(350%); }
+}
+.shimmer-bar {
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgba(251,191,36,0.18), transparent);
+  animation: shimmer-sweep 0.55s ease-in-out forwards;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* ── Audio waveform equalizer bars ── */
+@keyframes eq-bar {
+  0%, 100% { transform: scaleY(0.25); }
+  50%       { transform: scaleY(1); }
+}
+.eq-bar {
+  display: inline-block;
+  width: 3px;
+  height: 14px;
+  border-radius: 2px;
+  transform-origin: bottom;
+  transform: scaleY(0.25);
+}
+.eq-bar.playing {
+  animation: eq-bar 0.7s ease-in-out infinite;
+}
+.eq-bar:nth-child(1) { animation-delay: 0s; }
+.eq-bar:nth-child(2) { animation-delay: 0.12s; }
+.eq-bar:nth-child(3) { animation-delay: 0.24s; }
+.eq-bar:nth-child(4) { animation-delay: 0.36s; }
+.eq-bar:nth-child(5) { animation-delay: 0.18s; }

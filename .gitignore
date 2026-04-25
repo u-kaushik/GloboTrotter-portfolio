@@ -1,0 +1,9 @@
+node_modules
+dist
+.env
+.env.*
+.claude
+.netlify
+.playwright-mcp
+.DS_Store
+npm-debug.log*

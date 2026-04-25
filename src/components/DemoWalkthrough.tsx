@@ -332,7 +332,7 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
   return (
     <>
       <div
-        className="fixed inset-0 z-[600] bg-black/20 pointer-events-none"
+        className="fixed inset-0 z-[600] bg-black/28 backdrop-blur-[2px] pointer-events-none"
         style={overlayMaskStyle}
       />
 

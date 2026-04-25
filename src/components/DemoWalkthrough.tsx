@@ -300,7 +300,7 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
 
   if (!isOpen || !step) return null;
 
-  const overlayClassName = "fixed z-[600] bg-black/30 backdrop-blur-[3px] pointer-events-none";
+  const overlayClassName = "fixed z-[600] bg-black/[0.18] backdrop-blur-[1.5px] pointer-events-none";
 
   return (
     <>

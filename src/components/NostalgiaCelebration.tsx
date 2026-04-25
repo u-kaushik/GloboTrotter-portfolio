@@ -91,7 +91,7 @@ const NostalgiaCelebration: React.FC<NostalgiaCelebrationProps> = ({ log, tourSt
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="absolute inset-0 bg-gray-900/80 backdrop-blur-md pointer-events-none"
+        className={`absolute inset-0 pointer-events-none ${tourStepId ? 'bg-transparent' : 'bg-gray-900/80 backdrop-blur-md'}`}
       />
 
       {/* Magic dust sparkles */}

@@ -374,9 +374,11 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
 
   if (!isOpen || !step) return null;
 
-  const overlayClassName = step.id === 'globePortugal'
-    ? "fixed z-[600] bg-black/[0.10] backdrop-blur-[0.5px] pointer-events-none"
-    : "fixed z-[600] bg-black/[0.18] backdrop-blur-[1.5px] pointer-events-none";
+  const overlayClassName = step.id === 'memoryStoryOpen'
+    ? "fixed z-[600] bg-black/[0.08] pointer-events-none"
+    : step.id === 'globePortugal'
+      ? "fixed z-[600] bg-black/[0.10] backdrop-blur-[0.5px] pointer-events-none"
+      : "fixed z-[600] bg-black/[0.18] backdrop-blur-[1.5px] pointer-events-none";
 
   return (
     <>

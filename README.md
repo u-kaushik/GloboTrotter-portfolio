@@ -22,6 +22,10 @@ The goal is simple: show the polish, product thinking, and technical execution o
 
 > **[Try the live demo →](https://u-kaushik.github.io/GloboTrotter-portfolio/)**
 
+<div align="center">
+  <img src="./public/globotrotter-dashboard.png" alt="GloboTrotter portfolio demo dashboard screenshot" width="1200" />
+</div>
+
 ---
 
 ## Key Features

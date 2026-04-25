@@ -529,6 +529,7 @@ const JournalView: React.FC<JournalViewProps> = ({ log, profile, onBack, onUpdat
 
   const [showAddStory, setShowAddStory] = useState(false);
   const [viewerIndex, setViewerIndex] = useState<number | null>(null);
+  const demoWalkActive = Boolean(demoWalkStepId);
 
   // Always start at the top when opening a memory
   React.useEffect(() => {
@@ -544,6 +545,12 @@ const JournalView: React.FC<JournalViewProps> = ({ log, profile, onBack, onUpdat
     }, 200);
     return () => window.clearTimeout(t);
   }, [demoWalkStepId]);
+
+  useEffect(() => {
+    if (!demoWalkActive) return;
+    setShowAddStory(false);
+    setIsAddingMoment(false);
+  }, [demoWalkActive]);
 
   useEffect(() => {
     if (demoWalkStepId !== 'memoryMoments') return;
@@ -1137,13 +1144,15 @@ const JournalView: React.FC<JournalViewProps> = ({ log, profile, onBack, onUpdat
               )}
             </div>
           </div>
-          <button
-            onClick={() => setShowAddStory(true)}
-            className="flex items-center gap-1.5 bg-green-500 text-white px-3 py-2 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-green-600 transition-colors"
-          >
-            <Plus className="w-3.5 h-3.5" />
-            Add
-          </button>
+          {!demoWalkActive && (
+            <button
+              onClick={() => setShowAddStory(true)}
+              className="flex items-center gap-1.5 bg-green-500 text-white px-3 py-2 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-green-600 transition-colors"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              Add
+            </button>
+          )}
         </div>
 
         {allStories.length > 0 ? (
@@ -1157,23 +1166,27 @@ const JournalView: React.FC<JournalViewProps> = ({ log, profile, onBack, onUpdat
                 onDelete={() => removeStory(i)}
               />
             ))}
-            {/* Add card at end */}
-            <motion.button
-              initial={{ scale: 0.85, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: allStories.length * 0.04 + 0.05 }}
-              onClick={() => setShowAddStory(true)}
-              className="aspect-[3/4] rounded-2xl border-2 border-dashed border-gray-200 hover:border-green-300 hover:bg-green-50 transition-colors flex flex-col items-center justify-center gap-1.5 text-gray-300 hover:text-green-400"
-            >
-              <Plus className="w-5 h-5" />
-              <span className="text-[9px] font-black uppercase tracking-widest">Add</span>
-            </motion.button>
+            {!demoWalkActive && (
+              <motion.button
+                initial={{ scale: 0.85, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: allStories.length * 0.04 + 0.05 }}
+                onClick={() => setShowAddStory(true)}
+                className="aspect-[3/4] rounded-2xl border-2 border-dashed border-gray-200 hover:border-green-300 hover:bg-green-50 transition-colors flex flex-col items-center justify-center gap-1.5 text-gray-300 hover:text-green-400"
+              >
+                <Plus className="w-5 h-5" />
+                <span className="text-[9px] font-black uppercase tracking-widest">Add</span>
+              </motion.button>
+            )}
           </div>
         ) : (
           /* Empty state */
           <button
-            onClick={() => setShowAddStory(true)}
-            className="w-full py-14 flex flex-col items-center justify-center gap-3 text-gray-300 border-4 border-dashed border-gray-100 rounded-[2rem] hover:border-green-200 hover:text-green-400 transition-colors group"
+            onClick={() => {
+              if (!demoWalkActive) setShowAddStory(true);
+            }}
+            disabled={demoWalkActive}
+            className="w-full py-14 flex flex-col items-center justify-center gap-3 text-gray-300 border-4 border-dashed border-gray-100 rounded-[2rem] hover:border-green-200 hover:text-green-400 transition-colors group disabled:pointer-events-none disabled:opacity-60"
           >
             <div className="flex gap-2">
               <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-400 to-pink-500 opacity-60 group-hover:opacity-80 transition-opacity" />

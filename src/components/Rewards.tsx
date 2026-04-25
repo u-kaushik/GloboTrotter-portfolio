@@ -521,6 +521,7 @@ const Rewards: React.FC<RewardsProps> = ({ profile, logs, demoWalkStepId, demoHi
                       const isCurrent = lvl.level === currentLevel;
                       const isCompleted = lvl.level < currentLevel;
                       const isLocked = lvl.level > currentLevel;
+                      const remainingXp = Math.max(0, lvl.xpRequired - currentXp);
 
                       return (
                         <div
@@ -550,9 +551,9 @@ const Rewards: React.FC<RewardsProps> = ({ profile, logs, demoWalkStepId, demoHi
                       <p className="text-[9px] md:text-[10px] font-black text-gray-400 uppercase tracking-widest">
                         {lvl.xpRequired} XP
                       </p>
-                      {(isCurrent || lvl.level === currentLevel + 1) && (
+                      {(isCurrent || lvl.level === currentLevel + 1) && remainingXp > 0 && (
                         <p className="text-[9px] md:text-[10px] font-black text-yellow-600 uppercase tracking-widest whitespace-nowrap">
-                          {lvl.xpRequired - currentXp} to go
+                          {remainingXp} to go
                         </p>
                       )}
                     </div>

@@ -194,7 +194,7 @@ const App: React.FC = () => {
       case 'rewardsSummary':
         return { id: 'rewardsSummary', title: 'Your Travel Snapshot', body: 'A quick read on your badges, countries, cities, and photos all in one place.', targetDataTour: 'rewards-summary', tone: 'action' };
       case 'rewardsAchievements':
-        return { id: 'rewardsAchievements', title: 'Your Kyoto Badge', body: 'Tap the badge you just unlocked — then we’ll take a closer look together.', targetDataTour: 'rewards-badge-continents', tone: 'action' };
+        return { id: 'rewardsAchievements', title: 'Your World Badge', body: 'Tap the highlighted badge you just unlocked — then we’ll take a closer look together.', targetDataTour: 'rewards-badge-continents', tone: 'action' };
       case 'rewardsBadgeOpen':
         return { id: 'rewardsBadgeOpen', title: 'Nice One', body: 'Read the badge details, then close it to keep the tour moving.', targetDataTour: 'rewards-badge-close', tone: 'action', dockCorner: 'top-left' };
       case 'rewardsRoadmap':

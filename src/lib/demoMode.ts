@@ -34,6 +34,19 @@ const hydrateKyotoDemoMedia = (log: TravelLog): TravelLog => {
   };
 };
 
+const tripKey = (log: Partial<TravelLog>) =>
+  [log.countryCode, log.countryName, log.cityName, log.year, log.month, log.day, log.duration].join('|');
+
+const dedupeDemoLogs = (logs: TravelLog[]): TravelLog[] => {
+  const seen = new Set<string>();
+  return logs.filter((log) => {
+    const key = tripKey(log);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+};
+
 export const isDemoMode = (): boolean => {
   return localStorage.getItem(DEMO_MODE_KEY) === 'true';
 };
@@ -390,7 +403,7 @@ export const getDemoItineraries = (): Itinerary[] => {
 };
 
 export const saveDemoLog = (log: TravelLog): void => {
-  const logs = getStoredDemoLogs();
+  const logs = getStoredDemoLogs().filter((existing) => tripKey(existing) !== tripKey(log));
   const newLog = { ...log, id: `demo-log-${Date.now()}`, uid: 'demo-user-001', createdAt: new Date().toISOString() };
   logs.push(newLog);
   localStorage.setItem(DEMO_LOGS_KEY, JSON.stringify(logs));
@@ -418,7 +431,7 @@ export const getStoredDemoLogs = (): TravelLog[] => {
   const stored = localStorage.getItem(DEMO_LOGS_KEY);
   if (stored) {
     try {
-      return (JSON.parse(stored) as TravelLog[]).map(hydrateKyotoDemoMedia);
+      return dedupeDemoLogs((JSON.parse(stored) as TravelLog[]).map(hydrateKyotoDemoMedia));
     } catch {
       return [];
     }

@@ -157,7 +157,6 @@ a {
 .eq-bar:nth-child(5) { animation-delay: 0.18s; }
 
 [data-demo-tour-focus] {
-  border-radius: inherit;
   filter: none;
   outline: none;
   opacity: 1 !important;

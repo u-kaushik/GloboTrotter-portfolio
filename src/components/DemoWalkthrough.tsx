@@ -26,7 +26,7 @@ interface DemoWalkthroughProps {
 
 const clamp = (v: number, min: number, max: number) => Math.min(Math.max(v, min), max);
 type TooltipPosition = { top?: number; left?: number; right?: number; bottom?: number };
-const NO_LOCAL_VEIL_STEPS = ['memoryStoryOpen', 'portugalMemory', 'plannerCards', 'plannerDay1', 'plannerDay2', 'plannerDay3'];
+const NO_LOCAL_VEIL_STEPS = ['memoryStoryOpen', 'portugalMemory', 'plannerCards', 'plannerDay1', 'plannerDay2', 'plannerDay3', 'rewardsBadgeOpen'];
 
 const createsStackingContext = (style: CSSStyleDeclaration) => (
   style.transform !== 'none' ||
@@ -375,7 +375,7 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
 
   if (!isOpen || !step) return null;
 
-  const overlayClassName = step.id === 'memoryStoryOpen'
+  const overlayClassName = ['memoryStoryOpen', 'rewardsBadgeOpen'].includes(step.id)
     ? "fixed z-[600] bg-black/[0.08] pointer-events-none"
     : step.id === 'globePortugal'
       ? "fixed z-[600] bg-black/[0.10] backdrop-blur-[0.5px] pointer-events-none"

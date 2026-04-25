@@ -133,6 +133,15 @@ const TravelForm: React.FC<TravelFormProps> = ({ onSave, onCancel, initialCountr
     if (!target) return;
 
     const scrollTarget = () => {
+      if (demoWalkStepId === 'saveTrip') {
+        scrollContainerRef.current?.scrollTo({
+          top: scrollContainerRef.current.scrollHeight,
+          behavior: 'smooth',
+        });
+        target.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+        return;
+      }
+
       target.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
     };
 

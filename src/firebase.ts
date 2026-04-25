@@ -13,6 +13,8 @@ import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 import { resetUser } from './services/analytics';
 
+// Portfolio demo note: placeholder Firebase config keeps the UI modules
+// compile-compatible while the public demo runs entirely with local dummy data.
 const firebaseConfig = {
   apiKey: 'demo-only',
   authDomain: 'globotrotter-portfolio-demo.firebaseapp.com',

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, Sparkles } from 'lucide-react';
 
 type StepTone = 'info' | 'action';
+type InlineStyleSnapshot = Pick<CSSStyleDeclaration, 'position' | 'zIndex' | 'isolation'>;
 
 export interface DemoWalkthroughStep {
   id: string;
@@ -132,24 +133,49 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
   useEffect(() => {
     if (!isOpen || !step?.targetDataTour) return;
     const targetEl = document.querySelector(`[data-tour="${step.targetDataTour}"]`) as HTMLElement | null;
-    const surfaceEl = targetEl?.closest('[data-tour-surface]') as HTMLElement | null;
-    if (!surfaceEl) return;
+    if (!targetEl) return;
 
-    const prevPosition = surfaceEl.style.position;
-    const prevZIndex = surfaceEl.style.zIndex;
-    const prevIsolation = surfaceEl.style.isolation;
+    const snapshots = new Map<HTMLElement, InlineStyleSnapshot>();
+    const remember = (el: HTMLElement) => {
+      if (snapshots.has(el)) return;
+      snapshots.set(el, {
+        position: el.style.position,
+        zIndex: el.style.zIndex,
+        isolation: el.style.isolation,
+      });
+    };
 
-    const computedPosition = window.getComputedStyle(surfaceEl).position;
-    if (computedPosition === 'static') {
-      surfaceEl.style.position = 'relative';
+    remember(targetEl);
+    targetEl.dataset.demoTourFocus = 'true';
+    targetEl.style.zIndex = '616';
+    targetEl.style.isolation = 'isolate';
+    if (window.getComputedStyle(targetEl).position === 'static') {
+      targetEl.style.position = 'relative';
     }
-    surfaceEl.style.zIndex = '601';
-    surfaceEl.style.isolation = 'isolate';
+
+    // Portfolio demo polish: the focused walkthrough element should feel like
+    // part of the guide layer, so lift every modal/card wrapper that could
+    // otherwise trap it behind the dimmed page overlay.
+    let surfaceEl = targetEl.parentElement;
+    while (surfaceEl) {
+      if (surfaceEl instanceof HTMLElement && surfaceEl.hasAttribute('data-tour-surface')) {
+        remember(surfaceEl);
+        if (window.getComputedStyle(surfaceEl).position === 'static') {
+          surfaceEl.style.position = 'relative';
+        }
+        surfaceEl.style.zIndex = '605';
+        surfaceEl.style.isolation = 'isolate';
+      }
+      surfaceEl = surfaceEl.parentElement;
+    }
 
     return () => {
-      surfaceEl.style.position = prevPosition;
-      surfaceEl.style.zIndex = prevZIndex;
-      surfaceEl.style.isolation = prevIsolation;
+      targetEl.removeAttribute('data-demo-tour-focus');
+      snapshots.forEach((snapshot, el) => {
+        el.style.position = snapshot.position;
+        el.style.zIndex = snapshot.zIndex;
+        el.style.isolation = snapshot.isolation;
+      });
     };
   }, [isOpen, step?.targetDataTour]);
 

@@ -52,7 +52,7 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
       const computed = window.getComputedStyle(el as HTMLElement);
       const radius = Number.parseFloat(computed.borderTopLeftRadius || '0') || 0;
       if (step.id === 'globePortugal') {
-        const diameter = Math.min(rect.width, rect.height) * 0.8;
+        const diameter = Math.min(rect.width, rect.height) * 0.96;
         setSpot({
           top: rect.top + (rect.height - diameter) / 2,
           left: rect.left + (rect.width - diameter) / 2,
@@ -146,7 +146,7 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
     };
 
     remember(targetEl);
-    targetEl.dataset.demoTourFocus = 'true';
+    targetEl.dataset.demoTourFocus = step.id;
     targetEl.style.zIndex = '616';
     targetEl.style.isolation = 'isolate';
     if (window.getComputedStyle(targetEl).position === 'static') {
@@ -179,34 +179,14 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
     };
   }, [isOpen, step?.targetDataTour]);
 
-  const overlayMaskStyle = useMemo(() => {
-    if (!activeSpot) return undefined;
+  const overlayHole = useMemo(() => {
+    if (!activeSpot) return null;
     const holeX = Math.max(0, activeSpot.left - pad);
     const holeY = Math.max(0, activeSpot.top - pad);
     const holeW = Math.max(0, activeSpot.width + pad * 2);
     const holeH = Math.max(0, activeSpot.height + pad * 2);
-    const vpW = Math.max(1, document.documentElement.clientWidth);
-    const vpH = Math.max(1, document.documentElement.clientHeight);
-    const holeRadius = forceCircleHighlight
-      ? Math.min(holeW, holeH) / 2
-      : activeSpot.height + pad * 2 < 90 && activeSpot.width + pad * 2 < 180
-      ? Math.min(holeW, holeH) / 2
-      : Math.min(activeSpot.radius + pad, Math.min(holeW, holeH) / 2);
-
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${vpW} ${vpH}"><rect width="${vpW}" height="${vpH}" fill="white"/><rect x="${holeX}" y="${holeY}" width="${holeW}" height="${holeH}" rx="${holeRadius}" ry="${holeRadius}" fill="black"/></svg>`;
-    const encoded = encodeURIComponent(svg).replace(/%0A/g, '');
-    const url = `url("data:image/svg+xml,${encoded}")`;
-    return {
-      WebkitMaskImage: url,
-      maskImage: url,
-      WebkitMaskRepeat: 'no-repeat',
-      maskRepeat: 'no-repeat',
-      WebkitMaskSize: '100% 100%',
-      maskSize: '100% 100%',
-      WebkitMaskPosition: 'center',
-      maskPosition: 'center',
-    } as React.CSSProperties;
-  }, [activeSpot, pad, forceCircleHighlight]);
+    return { x: holeX, y: holeY, w: holeW, h: holeH };
+  }, [activeSpot, pad]);
 
   useEffect(() => {
     if (!isOpen || !step) return;
@@ -329,12 +309,20 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
 
   if (!isOpen || !step) return null;
 
+  const overlayClassName = "fixed z-[600] bg-black/30 backdrop-blur-[3px] pointer-events-none";
+
   return (
     <>
-      <div
-        className="fixed inset-0 z-[600] bg-black/30 backdrop-blur-[3px] pointer-events-none"
-        style={overlayMaskStyle}
-      />
+      {overlayHole ? (
+        <>
+          <div className={overlayClassName} style={{ left: 0, top: 0, right: 0, height: overlayHole.y }} />
+          <div className={overlayClassName} style={{ left: 0, top: overlayHole.y + overlayHole.h, right: 0, bottom: 0 }} />
+          <div className={overlayClassName} style={{ left: 0, top: overlayHole.y, width: overlayHole.x, height: overlayHole.h }} />
+          <div className={overlayClassName} style={{ left: overlayHole.x + overlayHole.w, top: overlayHole.y, right: 0, height: overlayHole.h }} />
+        </>
+      ) : (
+        <div className={`${overlayClassName} inset-0`} />
+      )}
 
       {activeSpot && (
         <React.Fragment key={`highlight-${step.id}`}>

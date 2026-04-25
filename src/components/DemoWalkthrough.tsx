@@ -25,6 +25,20 @@ interface DemoWalkthroughProps {
 const clamp = (v: number, min: number, max: number) => Math.min(Math.max(v, min), max);
 type TooltipPosition = { top?: number; left?: number; right?: number; bottom?: number };
 
+const createsStackingContext = (style: CSSStyleDeclaration) => (
+  style.transform !== 'none' ||
+  style.filter !== 'none' ||
+  style.backdropFilter !== 'none' ||
+  style.perspective !== 'none' ||
+  style.contain.includes('paint') ||
+  style.contain.includes('layout') ||
+  style.isolation === 'isolate' ||
+  Number.parseFloat(style.opacity || '1') < 1 ||
+  style.willChange.includes('transform') ||
+  style.willChange.includes('opacity') ||
+  style.willChange.includes('filter')
+);
+
 const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip, onTargetClick }) => {
   const [spot, setSpot] = useState<{ top: number; left: number; width: number; height: number; radius: number } | null>(null);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
@@ -36,6 +50,21 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
   const requiresNativeTargetClick = step?.id === 'globePortugal';
   const forceCircleHighlight = step?.id === 'globePortugal';
   const activeSpot = step?.targetDataTour && (!isCentered || allowCenteredHighlight) ? spot : null;
+
+  const triggerTargetOrAdvance = () => {
+    if (!step?.targetDataTour || requiresNativeTargetClick) {
+      onTargetClick();
+      return;
+    }
+
+    const targetEl = document.querySelector(`[data-tour="${step.targetDataTour}"]`) as HTMLElement | null;
+    if (!targetEl) {
+      onTargetClick();
+      return;
+    }
+
+    targetEl.click();
+  };
 
   useEffect(() => {
     setSpot(null);
@@ -158,14 +187,27 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
     // otherwise trap it behind the dimmed page overlay.
     let surfaceEl = targetEl.parentElement;
     while (surfaceEl) {
-      if (surfaceEl instanceof HTMLElement && surfaceEl.hasAttribute('data-tour-surface')) {
+      if (!(surfaceEl instanceof HTMLElement)) {
+        surfaceEl = surfaceEl.parentElement;
+        continue;
+      }
+
+      const style = window.getComputedStyle(surfaceEl);
+      const shouldLift =
+        surfaceEl.hasAttribute('data-tour-surface') ||
+        style.position === 'fixed' ||
+        createsStackingContext(style);
+
+      if (shouldLift) {
         remember(surfaceEl);
-        if (window.getComputedStyle(surfaceEl).position === 'static') {
+        if (style.position === 'static') {
           surfaceEl.style.position = 'relative';
         }
         surfaceEl.style.zIndex = '605';
         surfaceEl.style.isolation = 'isolate';
       }
+
+      if (surfaceEl === document.body) break;
       surfaceEl = surfaceEl.parentElement;
     }
 
@@ -300,7 +342,9 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
 
   if (!isOpen || !step) return null;
 
-  const overlayClassName = "fixed z-[600] bg-black/[0.18] backdrop-blur-[1.5px] pointer-events-none";
+  const overlayClassName = step.id === 'globePortugal'
+    ? "fixed z-[600] bg-black/[0.10] backdrop-blur-[0.5px] pointer-events-none"
+    : "fixed z-[600] bg-black/[0.18] backdrop-blur-[1.5px] pointer-events-none";
 
   return (
     <>
@@ -353,9 +397,21 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
           initial={isCentered ? { opacity: 0, scale: 0.96 } : { opacity: 0, y: 16 }}
           animate={isCentered ? { opacity: 1, scale: 1 } : { opacity: 1, y: 0 }}
           exit={isCentered ? { opacity: 0, scale: 0.96 } : { opacity: 0, y: 16 }}
-          className={`fixed z-[620] bg-white rounded-3xl shadow-2xl p-4 sm:p-6 w-[min(18rem,calc(100vw-1rem))] sm:w-[min(24rem,calc(100vw-2rem))] overflow-hidden ${isCentered ? 'text-center left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2' : ''}`}
+          className={`fixed z-[620] bg-white rounded-3xl shadow-2xl p-4 sm:p-6 w-[min(18rem,calc(100vw-1rem))] sm:w-[min(24rem,calc(100vw-2rem))] overflow-hidden ${step.targetDataTour ? 'cursor-pointer' : ''} ${isCentered ? 'text-center left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2' : ''}`}
           style={!isCentered && tooltipPos ? tooltipPos : undefined}
           ref={tooltipRef}
+          role={step.targetDataTour ? 'button' : undefined}
+          tabIndex={step.targetDataTour ? 0 : undefined}
+          onClick={() => {
+            if (step.targetDataTour) triggerTargetOrAdvance();
+          }}
+          onKeyDown={(event) => {
+            if (!step.targetDataTour) return;
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              triggerTargetOrAdvance();
+            }
+          }}
         >
           <div className="flex items-center justify-between mb-4 gap-3">
             <div className="flex items-center gap-2 min-w-0">
@@ -364,7 +420,7 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
               </div>
               <span className="text-xs font-black text-teal-600 uppercase tracking-widest">Demo</span>
             </div>
-            <button onClick={onSkip} className="shrink-0 p-1.5 hover:bg-gray-100 rounded-lg transition-colors" aria-label="Skip demo walkthrough">
+            <button onClick={(event) => { event.stopPropagation(); onSkip(); }} className="shrink-0 p-1.5 hover:bg-gray-100 rounded-lg transition-colors" aria-label="Skip demo walkthrough">
               <X className="w-4 h-4 text-gray-400" />
             </button>
           </div>
@@ -381,7 +437,7 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
 
           {step.targetDataTour && !spot && (
             <button
-              onClick={onTargetClick}
+              onClick={(event) => { event.stopPropagation(); triggerTargetOrAdvance(); }}
               className="mt-5 w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-black text-sm rounded-xl shadow-lg hover:shadow-xl transition-all active:scale-[0.98]"
             >
               Continue
@@ -390,7 +446,7 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
 
           {!step.targetDataTour && (
             <button
-              onClick={onTargetClick}
+              onClick={(event) => { event.stopPropagation(); onTargetClick(); }}
               className="mt-5 w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-teal-500 to-emerald-500 text-white font-black text-sm rounded-xl shadow-lg hover:shadow-xl transition-all active:scale-[0.98]"
             >
               Ready to Begin

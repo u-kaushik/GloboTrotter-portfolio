@@ -325,10 +325,19 @@ const App: React.FC = () => {
         return;
       }
       case 'globePortugal': {
+        const japanLogs = logs
+          .filter(l => String(l.countryCode).padStart(3, '0') === '392')
+          .sort((a, b) => b.year - a.year);
+        if (japanLogs.length > 0) {
+          setShowNostalgia(false);
+          setCountryTrips({ name: 'Japan', logs: japanLogs });
+          setDemoWalkStepId('portugalMemory');
+        }
         return;
       }
       case 'portugalMemory': {
         setShowNostalgia(false);
+        setCountryTrips(null);
         setSelectedLog(countryTrips?.logs[0] ?? null);
         setDemoWalkStepId('memoryEnjoy');
         return;
@@ -1837,7 +1846,7 @@ const App: React.FC = () => {
       {/* Country Trips Modal */}
       <AnimatePresence>
         {countryTrips && (
-          <div role="dialog" aria-modal="true" aria-label={`Trips in ${countryTrips.name}`} className="fixed inset-0 z-[100] flex items-center justify-center p-4 overflow-y-auto">
+          <div data-tour-surface role="dialog" aria-modal="true" aria-label={`Trips in ${countryTrips.name}`} className="fixed inset-0 z-[100] flex items-center justify-center p-4 overflow-y-auto">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

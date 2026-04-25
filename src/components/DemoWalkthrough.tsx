@@ -100,11 +100,20 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
     if (!isOpen || !step?.targetDataTour || (isCentered && !allowCenteredHighlight)) { setSpot(null); return; }
 
     let raf: number | null = null;
+    let didInitialScroll = false;
     const update = () => {
-      const el = document.querySelector(`[data-tour="${step.targetDataTour}"]`);
+      const el = document.querySelector(`[data-tour="${step.targetDataTour}"]`) as HTMLElement | null;
       if (!el) { setSpot(null); return; }
-      const rect = (el as HTMLElement).getBoundingClientRect();
-      const computed = window.getComputedStyle(el as HTMLElement);
+
+      if (!didInitialScroll && step.id !== 'globePortugal') {
+        didInitialScroll = true;
+        el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+        raf = requestAnimationFrame(update);
+        return;
+      }
+
+      const rect = el.getBoundingClientRect();
+      const computed = window.getComputedStyle(el);
       const radius = Number.parseFloat(computed.borderTopLeftRadius || '0') || 0;
       if (step.id === 'globePortugal') {
         const diameter = Math.min(rect.width, rect.height) * 0.96;

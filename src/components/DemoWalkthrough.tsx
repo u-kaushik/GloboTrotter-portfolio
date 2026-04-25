@@ -179,15 +179,6 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
     };
   }, [isOpen, step?.targetDataTour]);
 
-  const overlayHole = useMemo(() => {
-    if (!activeSpot) return null;
-    const holeX = Math.max(0, activeSpot.left - pad);
-    const holeY = Math.max(0, activeSpot.top - pad);
-    const holeW = Math.max(0, activeSpot.width + pad * 2);
-    const holeH = Math.max(0, activeSpot.height + pad * 2);
-    return { x: holeX, y: holeY, w: holeW, h: holeH };
-  }, [activeSpot, pad]);
-
   useEffect(() => {
     if (!isOpen || !step) return;
     const tooltipEl = tooltipRef.current;
@@ -313,16 +304,7 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
 
   return (
     <>
-      {overlayHole ? (
-        <>
-          <div className={overlayClassName} style={{ left: 0, top: 0, right: 0, height: overlayHole.y }} />
-          <div className={overlayClassName} style={{ left: 0, top: overlayHole.y + overlayHole.h, right: 0, bottom: 0 }} />
-          <div className={overlayClassName} style={{ left: 0, top: overlayHole.y, width: overlayHole.x, height: overlayHole.h }} />
-          <div className={overlayClassName} style={{ left: overlayHole.x + overlayHole.w, top: overlayHole.y, right: 0, height: overlayHole.h }} />
-        </>
-      ) : (
-        <div className={`${overlayClassName} inset-0`} />
-      )}
+      <div className={`${overlayClassName} inset-0`} />
 
       {activeSpot && (
         <React.Fragment key={`highlight-${step.id}`}>

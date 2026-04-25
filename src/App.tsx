@@ -198,7 +198,7 @@ const App: React.FC = () => {
       case 'rewardsBadgeOpen':
         return { id: 'rewardsBadgeOpen', title: 'Nice One', body: 'Read the badge details, then close it to keep the tour moving.', targetDataTour: 'rewards-badge-close', tone: 'action', dockCorner: 'top-left' };
       case 'rewardsRoadmap':
-        return { id: 'rewardsRoadmap', title: 'The Levels Ahead', body: 'This is where the journey keeps going — a preview of the levels you can grow into.', targetDataTour: 'rewards-roadmap', tone: 'action', dockCorner: 'top-right' };
+        return { id: 'rewardsRoadmap', title: 'The Levels Ahead', body: 'This is where the journey keeps going — your current level anchors the road ahead.', targetDataTour: 'rewards-current-level', tone: 'action', dockCorner: 'top-right' };
       case 'rewardsOutro':
         return { id: 'rewardsOutro', title: 'Ready to Make It Yours?', body: 'You’ve seen the full experience — now let’s get you into sign up so you can start your own journey.', centered: true };
       default:

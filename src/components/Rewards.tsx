@@ -526,6 +526,7 @@ const Rewards: React.FC<RewardsProps> = ({ profile, logs, demoWalkStepId, demoHi
                       return (
                         <div
                           key={lvl.level}
+                          data-tour={isCurrent ? 'rewards-current-level' : undefined}
                           className={cn(
                             "flex items-center gap-4 md:gap-6 p-4 md:p-5 rounded-2xl md:rounded-3xl border-2 transition-all relative",
                             isCurrent ? `${style.barLight} ${style.borderColor} shadow-md scale-[1.02] z-10 ml-2` : isLocked ? `bg-white border-gray-100 ml-6` : `bg-white ${style.borderColor} ml-6`,

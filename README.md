@@ -1,42 +1,152 @@
+<div align="center">
+
 # GloboTrotter Portfolio Demo
 
-Static portfolio version of GloboTrotter for recruiter and hiring-manager review.
+**A static portfolio demo of the GloboTrotter travel app UI**
 
-This build opens directly into the app UI with dummy travel data and the guided walkthrough enabled. It intentionally does not include production backend functions, live authentication, payments, or private environment variables.
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-blue?style=for-the-badge&logo=github)](https://u-kaushik.github.io/GloboTrotter-portfolio/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
+[![Vite](https://img.shields.io/badge/Vite-6-646CFF?style=flat-square&logo=vite)](https://vitejs.dev)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4-06B6D4?style=flat-square&logo=tailwindcss)](https://tailwindcss.com)
 
-## Recruiter Notes
+</div>
 
-This repository is a portfolio-safe UI sample extracted from a fuller private product codebase. It is meant to demonstrate product thinking, React component structure, interaction design, responsive UI polish, and the guided demo flow without exposing production credentials or backend implementation details.
+---
 
-What is intentionally included:
+## Overview
 
-- React + TypeScript Vite app shell
-- Real GloboTrotter UI components and product flows
-- Static demo mode with local dummy travel data
-- Guided walkthrough overlay for the CV/recruiter experience
+This repository is a public, recruiter-friendly portfolio version of GloboTrotter. It preserves the real product UI, interaction patterns, and front-end architecture, while removing production services and sensitive implementation details.
+
+The goal is simple: show the polish, product thinking, and technical execution of the app without exposing live auth, private backend logic, payments, or environment secrets.
+
+> **[Try the live demo →](https://u-kaushik.github.io/GloboTrotter-portfolio/)**
+
+---
+
+## Key Features
+
+### Real Product UI
+This build uses the actual GloboTrotter interface rather than a simplified mock. It demonstrates the interactive globe, travel journal views, onboarding flow, itinerary planner UI, rewards system, and guided product walkthrough.
+
+### Recruiter-Friendly Demo Mode
+The app boots directly into a static walkthrough with local dummy data. That makes it easy to assess the product without requiring login, setup, or backend access.
+
+### Guided Portfolio Experience
+A guided tour is enabled by default so recruiters and hiring managers can move through the product intentionally rather than landing in an empty shell.
+
+### Portfolio-Safe Extraction
+Private infrastructure is removed or stubbed. This keeps the public repo safe to share while still showing a realistic front-end codebase and product flow.
+
+### GitHub Pages Deployment
+The portfolio build is deployed via GitHub Actions to GitHub Pages, making it easy to keep a stable public demo linked from CVs and GitHub profile cards.
+
+---
+
+## What Is Included
+
+- Real GloboTrotter React + TypeScript UI
+- Static demo mode with local sample travel data
+- Guided walkthrough behaviour for portfolio review
+- Travel globe, journal, planner, rewards, and onboarding screens
 - GitHub Pages deployment workflow
 
-What is intentionally omitted or stubbed:
+## What Is Intentionally Omitted
 
-- Live Firebase project configuration and production data
-- Serverless functions and AI proxy implementation
-- Stripe/RevenueCat payment integration
-- Private roadmap, operational docs, and environment variables
-- Production mobile/iOS packaging
+- Live Firebase auth and production persistence
+- Serverless AI proxy implementation
+- Stripe / RevenueCat production payment flows
+- Private environment variables and service credentials
+- Internal roadmap, ops notes, and product documentation
+- Production mobile packaging and release configuration
 
-You may notice placeholder Firebase values in `src/firebase.ts` and forced demo bootstrapping in `src/main.tsx`. Those are deliberate guardrails for this public repository: the deployed site is a static UI demo, not the production system.
+---
 
-The production app architecture behind this demo includes authenticated user profiles, persisted travel logs, AI-generated trip planning/history context, analytics, and monetization integrations. This public repo keeps only the parts that are useful and appropriate for a CV link.
+## Tech Stack
 
-## Run locally
+| Layer | Technology |
+|---|---|
+| **Framework** | React 19, TypeScript 5.8 |
+| **Build** | Vite 6 |
+| **Styling** | Tailwind CSS 4 |
+| **Visualisation** | D3, TopoJSON |
+| **Animation** | Motion |
+| **Icons** | Lucide React |
+| **Client Services** | Firebase SDK, Mixpanel |
+| **Deploy** | GitHub Pages |
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (v18+)
+
+### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/u-kaushik/GloboTrotter-portfolio.git
+cd GloboTrotter-portfolio
+
+# Install dependencies
 npm install
+
+# Start the dev server
 npm run dev
 ```
 
-## Build
+The app will be available at **http://localhost:5173** by default.
 
-```bash
-npm run build
+> **Note:** This portfolio repo is designed to work as a static demo. Production auth, AI, and payment functionality are intentionally not part of this public build.
+
+---
+
+## Project Structure
+
+```text
+├── index.html              # HTML entry point
+├── package.json            # Scripts and dependencies
+├── vite.config.ts          # Vite configuration
+├── public/                 # Static assets, icons, OG image, demo SVGs
+├── src/
+│   ├── App.tsx             # Root app shell
+│   ├── main.tsx            # Demo-mode bootstrap
+│   ├── firebase.ts         # Portfolio-safe Firebase placeholder config
+│   ├── types.ts            # Shared TypeScript interfaces
+│   ├── components/         # Product UI components
+│   ├── constants/          # Static product constants
+│   ├── data/               # Demo discovery data
+│   ├── lib/                # Utility helpers
+│   └── services/           # Analytics and AI client wrappers
+└── .github/workflows/
+    └── deploy.yml          # GitHub Pages deploy workflow
 ```
+
+---
+
+## Demo Architecture Notes
+
+### Demo Bootstrapping
+`src/main.tsx` forces a recruiter-safe experience by enabling demo mode through local storage before the app mounts.
+
+### Static Front-End Focus
+This repo is intentionally front-end heavy. It is meant to show interface quality, component composition, state flow, and product UX rather than expose private infrastructure.
+
+### Safe Public Sharing
+If you see placeholder Firebase values or disabled backend pathways, those are deliberate guardrails for a public portfolio repository.
+
+---
+
+## Live Demo
+
+**[https://u-kaushik.github.io/GloboTrotter-portfolio/](https://u-kaushik.github.io/GloboTrotter-portfolio/)**
+
+The demo opens directly into a static portfolio walkthrough with dummy travel data and recruiter-friendly navigation.
+
+---
+
+## License
+
+This project is proprietary. All rights reserved.

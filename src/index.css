@@ -158,17 +158,15 @@ a {
 
 [data-demo-tour-focus="true"] {
   border-radius: inherit;
-  filter: saturate(1.22) brightness(1.12) contrast(1.04);
-  outline: 3px solid rgba(45, 212, 191, 0.95);
+  filter: none;
+  outline: 3px solid rgba(45, 212, 191, 0.9);
   outline-offset: 6px;
   opacity: 1 !important;
-  transform: translateZ(0) scale(1.018);
+  transform: translateZ(0);
   box-shadow:
-    0 18px 48px rgba(15, 118, 110, 0.36),
-    0 0 0 8px rgba(20, 184, 166, 0.16),
-    0 0 0 9999px rgba(255, 255, 255, 0.01);
+    0 18px 48px rgba(15, 23, 42, 0.24),
+    0 0 0 8px rgba(20, 184, 166, 0.12);
   transition:
-    filter 180ms ease,
     outline-color 180ms ease,
     transform 180ms ease,
     box-shadow 180ms ease;

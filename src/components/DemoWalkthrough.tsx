@@ -107,7 +107,8 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
 
       if (!didInitialScroll && step.id !== 'globePortugal') {
         didInitialScroll = true;
-        el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+        const block = ['demo-notes-ack', 'save-trip'].includes(step.targetDataTour) ? 'nearest' : 'center';
+        el.scrollIntoView({ behavior: 'smooth', block, inline: 'nearest' });
         raf = requestAnimationFrame(update);
         return;
       }

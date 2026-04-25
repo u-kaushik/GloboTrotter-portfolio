@@ -162,9 +162,7 @@ a {
   outline: none;
   opacity: 1 !important;
   transform: translateZ(0);
-  box-shadow:
-    0 18px 48px rgba(15, 23, 42, 0.24),
-    0 0 0 7px rgba(20, 184, 166, 0.12);
+  box-shadow: none;
   transition:
     transform 180ms ease,
     box-shadow 180ms ease;
@@ -176,6 +174,11 @@ a {
 
 [data-demo-tour-focus="globePortugal"] {
   border-radius: 9999px;
+}
+
+[data-demo-tour-focus="addTrip"] {
+  border-radius: 9999px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.24) !important;
 }
 
 [data-demo-tour-focus="globePortugal"] svg {

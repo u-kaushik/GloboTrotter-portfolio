@@ -161,10 +161,17 @@ a {
   outline: none;
   opacity: 1 !important;
   transform: translateZ(0);
-  box-shadow: none;
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.16);
   transition:
     transform 180ms ease,
     box-shadow 180ms ease;
+}
+
+[data-demo-tour-focus="nostalgiaScene"],
+[data-demo-tour-focus="nostalgiaFacts"] {
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 1rem;
+  padding: 1rem;
 }
 
 [data-demo-tour-surface-focus]::after {

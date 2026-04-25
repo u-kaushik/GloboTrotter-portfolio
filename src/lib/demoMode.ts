@@ -1,8 +1,38 @@
 import { TravelLog, UserProfile, Itinerary } from '../types';
+import { KYOTO_HERO_PHOTO, KYOTO_STREET_MOMENT_PHOTO, KYOTO_TEMPLE_MOMENT_PHOTO } from './demoOnboarding';
 
 const DEMO_MODE_KEY = 'gt_demo_mode';
 const DEMO_LOGS_KEY = 'gt_demo_logs';
 const DEMO_ITINERARIES_KEY = 'gt_demo_itineraries';
+const LEGACY_KYOTO_IMAGE = '/kyoto-demo.svg';
+
+const isLegacyKyotoImage = (url?: string) => !url || url.includes(LEGACY_KYOTO_IMAGE);
+
+const hydrateKyotoDemoMedia = (log: TravelLog): TravelLog => {
+  if (log.countryName !== 'Japan' || log.cityName !== 'Kyoto') return log;
+
+  return {
+    ...log,
+    photoUrl: isLegacyKyotoImage(log.photoUrl) ? KYOTO_HERO_PHOTO : log.photoUrl,
+    stories: log.stories?.map((story) => {
+      if (story.type === 'text') {
+        return {
+          ...story,
+          mediaUrl: isLegacyKyotoImage(story.mediaUrl) ? KYOTO_TEMPLE_MOMENT_PHOTO : story.mediaUrl,
+        };
+      }
+
+      if (story.type === 'photo') {
+        return {
+          ...story,
+          mediaUrl: isLegacyKyotoImage(story.mediaUrl) ? KYOTO_STREET_MOMENT_PHOTO : story.mediaUrl,
+        };
+      }
+
+      return story;
+    }),
+  };
+};
 
 export const isDemoMode = (): boolean => {
   return localStorage.getItem(DEMO_MODE_KEY) === 'true';
@@ -388,7 +418,7 @@ export const getStoredDemoLogs = (): TravelLog[] => {
   const stored = localStorage.getItem(DEMO_LOGS_KEY);
   if (stored) {
     try {
-      return JSON.parse(stored);
+      return (JSON.parse(stored) as TravelLog[]).map(hydrateKyotoDemoMedia);
     } catch {
       return [];
     }

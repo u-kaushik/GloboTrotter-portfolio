@@ -3,9 +3,9 @@ import { Itinerary, TravelLog, HistoricalContext } from '../types';
 export const DEMO_ONBOARDING_DONE_KEY = 'gt_demo_onboarding_done';
 export const DEMO_ONBOARDING_ACTIVE_KEY = 'gt_demo_onboarding_active';
 
-const KYOTO_HERO_PHOTO = 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=1200&h=900&fit=crop&auto=format&q=85';
-const KYOTO_TEMPLE_MOMENT_PHOTO = 'https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=900&h=1200&fit=crop&auto=format&q=85';
-const KYOTO_STREET_MOMENT_PHOTO = 'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=900&h=1200&fit=crop&auto=format&q=85';
+export const KYOTO_HERO_PHOTO = 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=1200&h=900&fit=crop&auto=format&q=85';
+export const KYOTO_TEMPLE_MOMENT_PHOTO = 'https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=900&h=1200&fit=crop&auto=format&q=85';
+export const KYOTO_STREET_MOMENT_PHOTO = 'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=900&h=1200&fit=crop&auto=format&q=85';
 
 const KYOTO_CONTEXT: HistoricalContext = {
   openingLine: 'Kyoto in autumn 2022 had that calm, golden hush — lantern-lit alleys, temple bells, and maple leaves starting to turn.',

@@ -395,7 +395,7 @@ const ItineraryPlanner: React.FC<ItineraryPlannerProps> = ({ onSave, savedItiner
                 disabled={credits <= 0 || (lockToSurpriseMe && card.intent !== 'surprise')}
                 data-tour={card.intent === 'surprise' ? 'planner-surprise' : undefined}
                 aria-disabled={lockToSurpriseMe && card.intent !== 'surprise'}
-                className={`${card.light} border-2 p-5 rounded-2xl text-left transition-all hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed group ${
+                className={`${lockToSurpriseMe && card.intent === 'surprise' ? 'bg-white border-teal-300' : card.light} border-2 p-5 rounded-2xl text-left transition-all hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed group ${
                   card.intent === 'surprise' ? 'sm:col-span-2' : ''
                 } ${
                   lockToSurpriseMe && card.intent !== 'surprise'
@@ -408,8 +408,8 @@ const ItineraryPlanner: React.FC<ItineraryPlannerProps> = ({ onSave, savedItiner
                     <card.icon className="w-5 h-5 text-white" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <div className={`font-black text-base ${card.accent}`}>{card.label}</div>
-                    <div className="text-xs text-gray-500 font-medium mt-0.5">
+                    <div className={`font-black text-base ${lockToSurpriseMe && card.intent === 'surprise' ? 'text-emerald-700' : card.accent}`}>{card.label}</div>
+                    <div className={`text-xs font-medium mt-0.5 ${lockToSurpriseMe && card.intent === 'surprise' ? 'text-slate-600' : 'text-gray-500'}`}>
                       {card.intent === 'weekend' ? `Quick escape from ${friendlyCountryName(dna.homeCountry || 'home')}` : card.desc}
                     </div>
                   </div>

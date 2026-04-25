@@ -3,7 +3,9 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, Sparkles } from 'lucide-react';
 
 type StepTone = 'info' | 'action';
-type InlineStyleSnapshot = Pick<CSSStyleDeclaration, 'position' | 'zIndex' | 'isolation'>;
+type InlineStyleSnapshot = Pick<CSSStyleDeclaration, 'position' | 'zIndex' | 'isolation'> & {
+  demoTourSurfaceFocus?: string;
+};
 
 export interface DemoWalkthroughStep {
   id: string;
@@ -194,6 +196,7 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
         position: el.style.position,
         zIndex: el.style.zIndex,
         isolation: el.style.isolation,
+        demoTourSurfaceFocus: el.dataset.demoTourSurfaceFocus,
       });
     };
 
@@ -209,10 +212,12 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
     // part of the guide layer, so lift every modal/card wrapper that could
     // otherwise trap it behind the dimmed page overlay.
     let surfaceEl: HTMLElement | null = targetEl.parentElement;
+    let localVeilApplied = false;
     while (surfaceEl) {
       const style = window.getComputedStyle(surfaceEl);
+      const isTourSurface = surfaceEl.hasAttribute('data-tour-surface');
       const shouldLift =
-        surfaceEl.hasAttribute('data-tour-surface') ||
+        isTourSurface ||
         style.position === 'fixed' ||
         createsStackingContext(style);
 
@@ -223,6 +228,10 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
         }
         surfaceEl.style.zIndex = '605';
         surfaceEl.style.isolation = 'isolate';
+        if (!localVeilApplied && (isTourSurface || style.position === 'fixed')) {
+          surfaceEl.dataset.demoTourSurfaceFocus = 'true';
+          localVeilApplied = true;
+        }
       }
 
       if (surfaceEl === document.body) break;
@@ -235,6 +244,11 @@ const DemoWalkthrough: React.FC<DemoWalkthroughProps> = ({ isOpen, step, onSkip,
         el.style.position = snapshot.position;
         el.style.zIndex = snapshot.zIndex;
         el.style.isolation = snapshot.isolation;
+        if (snapshot.demoTourSurfaceFocus === undefined) {
+          el.removeAttribute('data-demo-tour-surface-focus');
+        } else {
+          el.dataset.demoTourSurfaceFocus = snapshot.demoTourSurfaceFocus;
+        }
       });
     };
   }, [isOpen, step?.targetDataTour]);

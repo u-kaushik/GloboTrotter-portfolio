@@ -167,6 +167,16 @@ a {
     box-shadow 180ms ease;
 }
 
+[data-demo-tour-surface-focus]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 606;
+  pointer-events: none;
+  background: rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(0.75px);
+}
+
 [data-demo-tour-focus] * {
   opacity: 1 !important;
 }

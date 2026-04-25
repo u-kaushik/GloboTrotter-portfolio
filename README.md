@@ -4,7 +4,7 @@
 
 **A static portfolio demo of the GloboTrotter travel app UI**
 
-[![Live Product](https://img.shields.io/badge/Live%20Product-globotrottr.com-blue?style=for-the-badge&logo=netlify)](https://globotrottr.com)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-blue?style=for-the-badge&logo=github)](https://u-kaushik.github.io/GloboTrotter-portfolio/)
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
 [![Vite](https://img.shields.io/badge/Vite-6-646CFF?style=flat-square&logo=vite)](https://vitejs.dev)
@@ -20,7 +20,7 @@ This repository is a public, recruiter-friendly portfolio version of GloboTrotte
 
 The goal is simple: show the polish, product thinking, and technical execution of the app without exposing live auth, private backend logic, payments, or environment secrets.
 
-> **[View the live production product →](https://globotrottr.com)**
+> **[Try the live demo →](https://u-kaushik.github.io/GloboTrotter-portfolio/)**
 
 ---
 
@@ -39,7 +39,7 @@ A guided tour is enabled by default so recruiters and hiring managers can move t
 Private infrastructure is removed or stubbed. This keeps the public repo safe to share while still showing a realistic front-end codebase and product flow.
 
 ### Public Portfolio Build
-The portfolio build remains a safe static showcase for GitHub and CV links, while the real production product lives at `globotrottr.com`.
+The portfolio build remains a safe static showcase for GitHub and CV links, with a stable GitHub Pages deployment for recruiter-friendly review.
 
 ---
 
@@ -139,11 +139,11 @@ If you see placeholder Firebase values or disabled backend pathways, those are d
 
 ---
 
-## Live Product
+## Live Demo
 
-**[https://globotrottr.com](https://globotrottr.com)**
+**[https://u-kaushik.github.io/GloboTrotter-portfolio/](https://u-kaushik.github.io/GloboTrotter-portfolio/)**
 
-This is the real production GloboTrotter product. The repository itself remains a portfolio-safe public build, but the live consumer experience is available at the production domain above.
+The demo opens directly into a static portfolio walkthrough with dummy travel data and recruiter-friendly navigation.
 
 ---
 

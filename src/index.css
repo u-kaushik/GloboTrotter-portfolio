@@ -59,6 +59,20 @@
   }
 }
 
+@layer components {
+  .gt-green-button {
+    @apply bg-green-500 text-white shadow-lg shadow-green-500/20 transition-colors;
+  }
+
+  .gt-green-button:hover:not(:disabled) {
+    @apply bg-green-600;
+  }
+
+  .gt-green-button:disabled {
+    @apply bg-green-600/50 cursor-not-allowed;
+  }
+}
+
 /* Tiny universal hover animation for buttons to add a subtle depth on interaction */
 button {
   transition: transform 120ms ease-in-out;
@@ -72,6 +86,12 @@ a {
 }
 @media (prefers-reduced-motion: reduce) {
   button { transition: none; transform: none; }
+}
+
+.demo-spotlight-active,
+.demo-spotlight-active * {
+  opacity: 1 !important;
+  filter: none !important;
 }
 
 /* ── Time Capsule reveal sparkle ─────────────────────────────────────────── */

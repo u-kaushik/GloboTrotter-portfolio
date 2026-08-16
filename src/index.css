@@ -161,7 +161,9 @@ a {
   outline: none;
   opacity: 1 !important;
   transform: translateZ(0);
-  box-shadow: none;
+  box-shadow:
+    0 18px 48px rgba(15, 23, 42, 0.24),
+    0 0 0 7px rgba(20, 184, 166, 0.12);
   transition:
     transform 180ms ease,
     box-shadow 180ms ease;

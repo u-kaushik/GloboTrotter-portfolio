@@ -1,8 +1,51 @@
 import { TravelLog, UserProfile, Itinerary } from '../types';
+import { KYOTO_HERO_PHOTO, KYOTO_STREET_MOMENT_PHOTO, KYOTO_TEMPLE_MOMENT_PHOTO } from './demoOnboarding';
 
 const DEMO_MODE_KEY = 'gt_demo_mode';
 const DEMO_LOGS_KEY = 'gt_demo_logs';
 const DEMO_ITINERARIES_KEY = 'gt_demo_itineraries';
+const LEGACY_KYOTO_IMAGE = '/kyoto-demo.svg';
+
+const isLegacyKyotoImage = (url?: string) => !url || url.includes(LEGACY_KYOTO_IMAGE);
+
+const hydrateKyotoDemoMedia = (log: TravelLog): TravelLog => {
+  if (log.countryName !== 'Japan' || log.cityName !== 'Kyoto') return log;
+
+  return {
+    ...log,
+    photoUrl: isLegacyKyotoImage(log.photoUrl) ? KYOTO_HERO_PHOTO : log.photoUrl,
+    stories: log.stories?.map((story) => {
+      if (story.type === 'text') {
+        return {
+          ...story,
+          mediaUrl: isLegacyKyotoImage(story.mediaUrl) ? KYOTO_TEMPLE_MOMENT_PHOTO : story.mediaUrl,
+        };
+      }
+
+      if (story.type === 'photo') {
+        return {
+          ...story,
+          mediaUrl: isLegacyKyotoImage(story.mediaUrl) ? KYOTO_STREET_MOMENT_PHOTO : story.mediaUrl,
+        };
+      }
+
+      return story;
+    }),
+  };
+};
+
+const tripKey = (log: Partial<TravelLog>) =>
+  [log.countryCode, log.countryName, log.cityName, log.year, log.month, log.day, log.duration].join('|');
+
+const dedupeDemoLogs = (logs: TravelLog[]): TravelLog[] => {
+  const seen = new Set<string>();
+  return logs.filter((log) => {
+    const key = tripKey(log);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+};
 
 export const isDemoMode = (): boolean => {
   return localStorage.getItem(DEMO_MODE_KEY) === 'true';
@@ -360,7 +403,7 @@ export const getDemoItineraries = (): Itinerary[] => {
 };
 
 export const saveDemoLog = (log: TravelLog): void => {
-  const logs = getStoredDemoLogs();
+  const logs = getStoredDemoLogs().filter((existing) => tripKey(existing) !== tripKey(log));
   const newLog = { ...log, id: `demo-log-${Date.now()}`, uid: 'demo-user-001', createdAt: new Date().toISOString() };
   logs.push(newLog);
   localStorage.setItem(DEMO_LOGS_KEY, JSON.stringify(logs));
@@ -388,7 +431,7 @@ export const getStoredDemoLogs = (): TravelLog[] => {
   const stored = localStorage.getItem(DEMO_LOGS_KEY);
   if (stored) {
     try {
-      return JSON.parse(stored);
+      return dedupeDemoLogs((JSON.parse(stored) as TravelLog[]).map(hydrateKyotoDemoMedia));
     } catch {
       return [];
     }

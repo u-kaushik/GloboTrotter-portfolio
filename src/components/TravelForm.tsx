@@ -133,6 +133,15 @@ const TravelForm: React.FC<TravelFormProps> = ({ onSave, onCancel, initialCountr
     if (!target) return;
 
     const scrollTarget = () => {
+      if (demoWalkStepId === 'saveTrip') {
+        scrollContainerRef.current?.scrollTo({
+          top: scrollContainerRef.current.scrollHeight,
+          behavior: 'smooth',
+        });
+        target.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+        return;
+      }
+
       target.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
     };
 
@@ -251,7 +260,7 @@ const TravelForm: React.FC<TravelFormProps> = ({ onSave, onCancel, initialCountr
     <div data-tour-surface className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full border-4 border-green-100 max-h-[90vh] overflow-hidden relative z-20 flex flex-col">
       <div
         ref={scrollContainerRef}
-        className={`p-4 sm:p-6 ${isCompact ? 'overflow-y-auto scrollbar-hide' : 'overflow-y-auto'} w-full h-full flex-1`}
+        className={`p-4 sm:p-6 ${isCompact ? 'overflow-y-auto scrollbar-hide' : 'overflow-y-auto'} w-full max-h-[calc(90vh-2rem)]`}
       >
         <div className="flex justify-between items-center mb-4 sm:mb-6">
           <h2 className="text-xl sm:text-2xl font-black text-green-600 flex items-center gap-2">

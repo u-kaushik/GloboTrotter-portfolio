@@ -1,156 +1,141 @@
 <div align="center">
 
-# GloboTrotter Portfolio Demo
+# GloboTrotter
 
-**A static portfolio demo of the GloboTrotter travel app UI**
+### A commissioned travel product engagement for Glenmont Circle
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-blue?style=for-the-badge&logo=github)](https://u-kaushik.github.io/GloboTrotter-portfolio/)
-[![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react)](https://react.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
-[![Vite](https://img.shields.io/badge/Vite-6-646CFF?style=flat-square&logo=vite)](https://vitejs.dev)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4-06B6D4?style=flat-square&logo=tailwindcss)](https://tailwindcss.com)
+**Interactive travel history, AI itinerary planning, journaling, and rewards—designed and delivered across web and iOS.**
+
+[![Try the interactive demo](https://img.shields.io/badge/Try_the_interactive_demo-16A34A?style=for-the-badge&logo=github)](https://u-kaushik.github.io/GloboTrotter-portfolio/)
+[![React](https://img.shields.io/badge/React_19-20232A?style=for-the-badge&logo=react)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript_5.8-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org)
 
 </div>
 
----
+![GloboTrotter product dashboard](public/globotrotter-dashboard.png)
 
-## Overview
+## Project context
 
-This repository is a public, recruiter-friendly portfolio version of GloboTrotter. It preserves the real product UI, interaction patterns, and front-end architecture, while removing production services and sensitive implementation details.
+Glenmont Circle commissioned GloboTrotter from an initial travel-product brief through a production web application and iOS distribution path. I worked as the independent product designer and engineer responsible for the end-to-end delivery: product definition, brand and interaction design, front-end architecture, data visualisation, AI workflows, backend integration, monetisation, analytics, mobile packaging, and launch presentation.
 
-The goal is simple: show the polish, product thinking, and technical execution of the app without exposing live auth, private backend logic, payments, or environment secrets.
+The studio brief was to create a travel product that became more personal over time. Rather than producing another generic booking or itinerary interface, I designed the experience around a user's own travel history: a globe that fills in as they explore, a journal that preserves memories, and planning tools informed by where they have already been.
 
-> **[Try the live demo →](https://u-kaushik.github.io/GloboTrotter-portfolio/)**
+> **[Explore the recruiter-safe live demo →](https://u-kaushik.github.io/GloboTrotter-portfolio/)**
 
-<div align="center">
-  <img src="./public/globotrotter-dashboard.png" alt="GloboTrotter portfolio demo dashboard screenshot" width="1200" />
-</div>
+## My contribution
 
----
+- Took the commissioned brief from product definition through a production-ready web and iOS experience.
+- Designed the product identity, responsive design system, onboarding, dashboard, interactive globe, journal, planner, Time Capsule, rewards, and upgrade flows.
+- Built the React and TypeScript application, including component architecture, client state, responsive behaviour, motion, and accessibility considerations.
+- Implemented the D3 and TopoJSON travel globe with touch-safe mobile interaction.
+- Designed secure server boundaries for AI itinerary and nostalgia features, keeping provider credentials and paid actions off the client.
+- Integrated Firebase, analytics, Stripe, and the Capacitor-based iOS distribution path.
+- Produced the portfolio-safe demo, launch assets, product presentation, and technical documentation.
 
-## Key Features
+## Product experience
 
-### Real Product UI
-This build uses the actual GloboTrotter interface rather than a simplified mock. It demonstrates the interactive globe, travel journal views, onboarding flow, itinerary planner UI, rewards system, and guided product walkthrough.
+| Personal globe | Travel journal |
+| --- | --- |
+| ![Interactive personal travel globe](public/portfolio/app-globe-page.png) | ![Travel memories and journal](public/portfolio/callout-journal-memories.png) |
+| **AI-assisted planning** | **Progress and rewards** |
+| ![AI travel itinerary planner](public/portfolio/callout-marrakech-card-planner.png) | ![Travel level and rewards](public/portfolio/callout-level-card-full.png) |
 
-### Recruiter-Friendly Demo Mode
-The app boots directly into a static walkthrough with local dummy data. That makes it easy to assess the product without requiring login, setup, or backend access.
+## Product decisions
 
-### Guided Portfolio Experience
-A guided tour is enabled by default so recruiters and hiring managers can move through the product intentionally rather than landing in an empty shell.
+### Make travel history the input
 
-### Portfolio-Safe Extraction
-Private infrastructure is removed or stubbed. This keeps the public repo safe to share while still showing a realistic front-end codebase and product flow.
+Most travel-planning tools begin with an empty prompt. GloboTrotter begins with the user's own map, memories, preferences, and previous journeys, giving future recommendations useful personal context.
 
-### Public Portfolio Build
-The portfolio build remains a safe static showcase for GitHub and CV links, with a stable GitHub Pages deployment for recruiter-friendly review.
+### Translate AI infrastructure into product language
 
----
+The interface uses “fuel” rather than tokens or credits, and presents a planner rather than a generic generator. Paid AI actions remain understandable without exposing implementation vocabulary.
 
-## What Is Included
+### Combine utility with emotional recall
 
-- Real GloboTrotter React + TypeScript UI
-- Static demo mode with local sample travel data
-- Guided walkthrough behaviour for portfolio review
-- Travel globe, journal, planner, rewards, and onboarding screens
-- GitHub Pages deployment workflow
+The globe, journal, and Time Capsule give completed trips ongoing value. Planning and memory are connected parts of one experience instead of separate tools.
 
-## What Is Intentionally Omitted
+### Design once for web and iOS
 
-- Live Firebase auth and production persistence
-- Serverless AI proxy implementation
-- Stripe / RevenueCat production payment flows
-- Private environment variables and service credentials
-- Internal roadmap, ops notes, and product documentation
-- Production mobile packaging and release configuration
+Responsive interaction, safe-area behaviour, touch handling, and Capacitor packaging were considered as part of the product system rather than added after the desktop application.
 
----
+## Engineering highlights
 
-## Tech Stack
+- React 19 and TypeScript component architecture with a Vite build pipeline.
+- D3 and TopoJSON interactive globe with mobile drag and country-state visualisation.
+- Firebase authentication, Firestore persistence, and photo storage in the production architecture.
+- Server-side Anthropic workflows for itinerary and Time Capsule generation.
+- Stripe monetisation on web with RevenueCat and Capacitor integration points for iOS.
+- Mixpanel and GA4 product analytics across onboarding, engagement, planning, and conversion.
+- Motion-led onboarding, guided walkthroughs, rewards, and celebration states.
+- Recruiter-safe static mode using realistic local data and no production credentials.
 
-| Layer | Technology |
-|---|---|
-| **Framework** | React 19, TypeScript 5.8 |
-| **Build** | Vite 6 |
-| **Styling** | Tailwind CSS 4 |
-| **Visualisation** | D3, TopoJSON |
-| **Animation** | Motion |
-| **Icons** | Lucide React |
-| **Client Services** | Firebase SDK, Mixpanel |
-| **Deploy** | GitHub Pages |
+## Architecture
 
----
+```text
+React product UI
+├── D3 / TopoJSON globe
+├── journal, planner, rewards, and onboarding state
+├── Firebase auth, database, and storage clients
+└── serverless boundary
+    ├── AI itinerary and Time Capsule workflows
+    ├── fuel accounting and abuse protection
+    ├── Stripe checkout and webhooks
+    └── analytics and share metadata
 
-## Getting Started
+Capacitor shell → iOS distribution and RevenueCat integration path
+```
 
-### Prerequisites
+The public repository intentionally replaces production services with safe placeholders while retaining the real interface, component structure, interaction patterns, and representative data.
 
-- [Node.js](https://nodejs.org/) (v18+)
+## Technology
 
-### Installation
+| Area | Technology |
+| --- | --- |
+| Product UI | React 19, TypeScript 5.8, Tailwind CSS 4 |
+| Visualisation | D3 v7, TopoJSON |
+| Motion | Motion |
+| Production data | Firebase Auth, Firestore, Storage |
+| AI boundary | Anthropic via serverless functions |
+| Monetisation | Stripe; RevenueCat integration path for iOS |
+| Analytics | Mixpanel, Google Analytics 4 |
+| Mobile | Capacitor iOS |
+| Portfolio deployment | GitHub Pages |
+
+## Run the portfolio build
 
 ```bash
-# Clone the repository
 git clone https://github.com/u-kaushik/GloboTrotter-portfolio.git
 cd GloboTrotter-portfolio
-
-# Install dependencies
 npm install
-
-# Start the dev server
 npm run dev
 ```
 
-The app will be available at **http://localhost:5173** by default.
+Useful checks:
 
-> **Note:** This portfolio repo is designed to work as a static demo. Production auth, AI, and payment functionality are intentionally not part of this public build.
-
----
-
-## Project Structure
-
-```text
-├── index.html              # HTML entry point
-├── package.json            # Scripts and dependencies
-├── vite.config.ts          # Vite configuration
-├── public/                 # Static assets, icons, OG image, demo SVGs
-├── src/
-│   ├── App.tsx             # Root app shell
-│   ├── main.tsx            # Demo-mode bootstrap
-│   ├── firebase.ts         # Portfolio-safe Firebase placeholder config
-│   ├── types.ts            # Shared TypeScript interfaces
-│   ├── components/         # Product UI components
-│   ├── constants/          # Static product constants
-│   ├── data/               # Demo discovery data
-│   ├── lib/                # Utility helpers
-│   └── services/           # Analytics and AI client wrappers
-└── .github/workflows/
-    └── deploy.yml          # GitHub Pages deploy workflow
+```bash
+npm run lint
+npm run build
 ```
 
----
+This public build starts in demo mode with representative local data. Production authentication, payment credentials, AI proxy implementation, private operations material, and environment secrets are intentionally omitted.
 
-## Demo Architecture Notes
+## Repository map
 
-### Demo Bootstrapping
-`src/main.tsx` forces a recruiter-safe experience by enabling demo mode through local storage before the app mounts.
+```text
+src/
+├── components/   # Product screens and composed experiences
+├── constants/    # Gamification and onboarding definitions
+├── data/         # Portfolio-safe discovery and demo content
+├── lib/          # Travel-domain and demo-mode helpers
+├── services/     # Client-side analytics and AI interfaces
+├── App.tsx       # Application orchestration
+└── main.tsx      # Recruiter-safe demo bootstrap
+```
 
-### Static Front-End Focus
-This repo is intentionally front-end heavy. It is meant to show interface quality, component composition, state flow, and product UX rather than expose private infrastructure.
+## Portfolio and ownership
 
-### Safe Public Sharing
-If you see placeholder Firebase values or disabled backend pathways, those are deliberate guardrails for a public portfolio repository.
-
----
-
-## Live Demo
-
-**[https://u-kaushik.github.io/GloboTrotter-portfolio/](https://u-kaushik.github.io/GloboTrotter-portfolio/)**
-
-The demo opens directly into a static portfolio walkthrough with dummy travel data and recruiter-friendly navigation.
-
----
+This repository presents work delivered for Glenmont Circle and is published for portfolio review. I was responsible for the end-to-end product and technical execution described above; the original opportunity and commercial brief came from the commissioning studio.
 
 ## License
 
-This project is proprietary. All rights reserved.
+Proprietary portfolio material. All rights reserved.

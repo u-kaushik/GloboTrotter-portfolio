@@ -59,6 +59,20 @@
   }
 }
 
+@layer components {
+  .gt-green-button {
+    @apply bg-green-500 text-white shadow-lg shadow-green-500/20 transition-colors;
+  }
+
+  .gt-green-button:hover:not(:disabled) {
+    @apply bg-green-600;
+  }
+
+  .gt-green-button:disabled {
+    @apply bg-green-600/50 cursor-not-allowed;
+  }
+}
+
 /* Tiny universal hover animation for buttons to add a subtle depth on interaction */
 button {
   transition: transform 120ms ease-in-out;
@@ -72,6 +86,12 @@ a {
 }
 @media (prefers-reduced-motion: reduce) {
   button { transition: none; transform: none; }
+}
+
+.demo-spotlight-active,
+.demo-spotlight-active * {
+  opacity: 1 !important;
+  filter: none !important;
 }
 
 /* ── Time Capsule reveal sparkle ─────────────────────────────────────────── */
@@ -167,6 +187,90 @@ a {
   transition:
     transform 180ms ease,
     box-shadow 180ms ease;
+}
+
+[data-demo-tour-focus="nostalgiaScene"],
+[data-demo-tour-focus="nostalgiaFacts"] {
+  width: calc(100% - 1rem);
+  margin-inline: auto;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 1rem;
+  outline: 10px solid rgba(255, 255, 255, 0.96);
+  outline-offset: -1px;
+}
+
+[data-demo-tour-focus="portugalMemory"] {
+  background: rgba(255, 255, 255, 0.98) !important;
+  border-color: rgba(16, 185, 129, 0.28) !important;
+  filter: none !important;
+  opacity: 1 !important;
+  box-shadow: 0 20px 48px rgba(15, 23, 42, 0.2) !important;
+}
+
+[data-demo-tour-focus="plannerCards"] {
+  background: rgba(255, 255, 255, 0.99) !important;
+  border-color: rgba(20, 184, 166, 0.5) !important;
+  filter: none !important;
+  opacity: 1 !important;
+  box-shadow: 0 24px 56px rgba(15, 23, 42, 0.24) !important;
+}
+
+[data-demo-tour-focus="plannerCards"] * {
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+[data-demo-tour-focus="plannerCards"] .text-gray-500 {
+  color: rgb(71, 85, 105) !important;
+}
+
+[data-demo-tour-focus="plannerSummary"] {
+  background: rgb(255, 255, 255) !important;
+  border-color: rgba(20, 184, 166, 0.48) !important;
+  filter: none !important;
+  opacity: 1 !important;
+  box-shadow: 0 24px 56px rgba(15, 23, 42, 0.24) !important;
+}
+
+[data-demo-tour-focus="plannerGenerate"] {
+  background: rgb(255, 255, 255) !important;
+  border: 2px solid rgba(20, 184, 166, 0.42) !important;
+  border-radius: 1.5rem !important;
+  padding: 3rem 1.5rem !important;
+  filter: none !important;
+  opacity: 1 !important;
+  box-shadow: 0 24px 56px rgba(15, 23, 42, 0.24) !important;
+}
+
+[data-demo-tour-focus="plannerSummary"] *,
+[data-demo-tour-focus="plannerGenerate"] * {
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+[data-demo-tour-focus="plannerDay1"],
+[data-demo-tour-focus="plannerDay2"],
+[data-demo-tour-focus="plannerDay3"] {
+  background: rgba(255, 255, 255, 0.99) !important;
+  filter: none !important;
+  opacity: 1 !important;
+  box-shadow: 0 22px 52px rgba(15, 23, 42, 0.2) !important;
+}
+
+[data-demo-tour-focus="rewardsBadgeOpen"] {
+  background: #111827 !important;
+  color: #fff !important;
+  box-shadow: 0 22px 52px rgba(15, 23, 42, 0.28) !important;
+}
+
+[data-demo-tour-surface-focus]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 606;
+  pointer-events: none;
+  background: rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(0.75px);
 }
 
 [data-demo-tour-focus] * {

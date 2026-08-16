@@ -194,11 +194,11 @@ const App: React.FC = () => {
       case 'rewardsSummary':
         return { id: 'rewardsSummary', title: 'Your Travel Snapshot', body: 'A quick read on your badges, countries, cities, and photos all in one place.', targetDataTour: 'rewards-summary', tone: 'action' };
       case 'rewardsAchievements':
-        return { id: 'rewardsAchievements', title: 'Your Kyoto Badge', body: 'Tap the badge you just unlocked — then we’ll take a closer look together.', targetDataTour: 'rewards-badge-continents', tone: 'action' };
+        return { id: 'rewardsAchievements', title: 'Your World Badge', body: 'Tap the highlighted badge you just unlocked — then we’ll take a closer look together.', targetDataTour: 'rewards-badge-continents', tone: 'action' };
       case 'rewardsBadgeOpen':
         return { id: 'rewardsBadgeOpen', title: 'Nice One', body: 'Read the badge details, then close it to keep the tour moving.', targetDataTour: 'rewards-badge-close', tone: 'action', dockCorner: 'top-left' };
       case 'rewardsRoadmap':
-        return { id: 'rewardsRoadmap', title: 'The Levels Ahead', body: 'This is where the journey keeps going — a preview of the levels you can grow into.', targetDataTour: 'rewards-roadmap', tone: 'action', dockCorner: 'top-right' };
+        return { id: 'rewardsRoadmap', title: 'The Levels Ahead', body: 'This is where the journey keeps going — your current level anchors the road ahead.', targetDataTour: 'rewards-current-level', tone: 'action', dockCorner: 'top-right' };
       case 'rewardsOutro':
         return { id: 'rewardsOutro', title: 'Ready to Make It Yours?', body: 'You’ve seen the full experience — now let’s get you into sign up so you can start your own journey.', centered: true };
       default:

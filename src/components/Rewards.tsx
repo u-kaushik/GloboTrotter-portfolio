@@ -521,10 +521,12 @@ const Rewards: React.FC<RewardsProps> = ({ profile, logs, demoWalkStepId, demoHi
                       const isCurrent = lvl.level === currentLevel;
                       const isCompleted = lvl.level < currentLevel;
                       const isLocked = lvl.level > currentLevel;
+                      const remainingXp = Math.max(0, lvl.xpRequired - currentXp);
 
                       return (
                         <div
                           key={lvl.level}
+                          data-tour={isCurrent ? 'rewards-current-level' : undefined}
                           className={cn(
                             "flex items-center gap-4 md:gap-6 p-4 md:p-5 rounded-2xl md:rounded-3xl border-2 transition-all relative",
                             isCurrent ? `${style.barLight} ${style.borderColor} shadow-md scale-[1.02] z-10 ml-2` : isLocked ? `bg-white border-gray-100 ml-6` : `bg-white ${style.borderColor} ml-6`,
@@ -550,9 +552,9 @@ const Rewards: React.FC<RewardsProps> = ({ profile, logs, demoWalkStepId, demoHi
                       <p className="text-[9px] md:text-[10px] font-black text-gray-400 uppercase tracking-widest">
                         {lvl.xpRequired} XP
                       </p>
-                      {(isCurrent || lvl.level === currentLevel + 1) && (
+                      {(isCurrent || lvl.level === currentLevel + 1) && remainingXp > 0 && (
                         <p className="text-[9px] md:text-[10px] font-black text-yellow-600 uppercase tracking-widest whitespace-nowrap">
-                          {lvl.xpRequired - currentXp} to go
+                          {remainingXp} to go
                         </p>
                       )}
                     </div>

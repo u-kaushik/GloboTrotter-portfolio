@@ -94,7 +94,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, onGoToLogin, loginEr
         >
           <div className="inline-flex items-center gap-2 bg-green-50 border border-green-200 rounded-full px-4 py-1.5 mb-6 sm:mb-8">
             <Sparkles className="w-4 h-4 text-green-600" />
-            <span className="text-sm font-bold text-green-700">AI-powered travel planning</span>
+            <span className="text-sm font-bold text-green-700">
+              {demoEnabled ? 'Glenmont Circle commissioned work · Portfolio edition' : 'AI-powered travel planning'}
+            </span>
           </div>
 
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-gray-900 tracking-tight leading-[1.1] mb-6">
@@ -105,6 +107,12 @@ const LandingPage: React.FC<LandingPageProps> = ({ onLogin, onGoToLogin, loginEr
           <p className="text-lg sm:text-xl text-gray-500 font-medium max-w-xl mx-auto mb-8 sm:mb-10 leading-relaxed">
             Log every trip, watch your world map light up, and let AI plan your next adventure based on where you've been.
           </p>
+
+          {demoEnabled && (
+            <p className="text-sm text-gray-500 font-semibold max-w-xl mx-auto -mt-5 mb-8">
+              End-to-end product design and engineering delivered for Glenmont Circle, from brief and brand through the public web and iOS experiences.
+            </p>
+          )}
 
           <div className="flex flex-col items-center justify-center gap-3">
             <button

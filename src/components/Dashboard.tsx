@@ -648,9 +648,23 @@ const Dashboard: React.FC<DashboardProps> = ({ profile, logs, earnedBadges, onLo
                           referrerPolicy="no-referrer"
                         />
                       ) : firstText ? (
-                        <div className={`w-full h-full bg-gradient-to-br ${bgGradients[firstText.backgroundColor || 'sunset']} flex items-center justify-center p-5`}>
-                          <p className="text-white font-bold text-base text-center line-clamp-5 leading-snug drop-shadow">"{firstText.caption}"</p>
-                        </div>
+                        firstText.mediaUrl ? (
+                          <div className="relative w-full h-full">
+                            <img
+                              src={firstText.mediaUrl}
+                              alt={log.cityName}
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                              referrerPolicy="no-referrer"
+                              loading="lazy"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-black/10" />
+                            <p className="absolute inset-x-4 bottom-4 text-white font-bold text-base line-clamp-5 leading-snug drop-shadow">"{firstText.caption}"</p>
+                          </div>
+                        ) : (
+                          <div className={`w-full h-full bg-gradient-to-br ${bgGradients[firstText.backgroundColor || 'sunset']} flex items-center justify-center p-5`}>
+                            <p className="text-white font-bold text-base text-center line-clamp-5 leading-snug drop-shadow">"{firstText.caption}"</p>
+                          </div>
+                        )
                       ) : topSong ? (
                         /* Music hero: album art (or dark gradient fallback) with song info */
                         <SongHeroCard
